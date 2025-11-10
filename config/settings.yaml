@@ -1,0 +1,29 @@
+# Code-RAG Testbed Configuration
+
+# Embedding Settings
+embedding:
+  model: "text-embedding-3-small"  # OpenAI embedding model
+  batch_size: 100  # Number of chunks to embed at once
+
+# Chunking Settings
+chunking:
+  size: 1000  # Maximum chunk size in characters
+  overlap: 200  # Overlap between chunks in characters
+  strategy: "line-based"  # Chunking strategy: line-based, semantic, or ast-based
+
+# Retrieval Settings
+retrieval:
+  top_k: 5  # Number of chunks to retrieve
+  similarity_threshold: 0.7  # Minimum similarity score (0-1)
+
+# LLM Settings
+llm:
+  model: "gpt-4-turbo-preview"  # Model for answer generation
+  temperature: 0.1  # Lower = more deterministic
+  max_tokens: 1000  # Maximum tokens in response
+
+# Experiment Settings
+experiments:
+  save_results: true  # Whether to save experiment results
+  results_format: "json"  # json or csv
+  log_queries: true  # Log all queries for analysis
