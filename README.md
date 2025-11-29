@@ -8,6 +8,7 @@ A research testbed for testing **embedding poisoning attacks** on RAG systems. D
 ## Overview
 
 Test how adversarial chunks injected into vector databases affect RAG retrieval and generation:
+
 - **Baseline Establishment**: Measure normal retrieval behavior
 - **Attack Simulation**: Inject poisoned chunks (random, targeted, misleading)
 - **Impact Analysis**: Quantify how poisoning corrupts results
@@ -16,6 +17,7 @@ Test how adversarial chunks injected into vector databases affect RAG retrieval 
 ## Quick Start
 
 ### Prerequisites
+
 - Python 3.10+
 - OpenAI API key
 
@@ -44,6 +46,7 @@ python experiments/run_full_experiment.py
 python experiments/01_establish_baseline.py  # Build clean baseline
 python experiments/02_poison_attack.py       # Inject poison
 python experiments/03_evaluate_impact.py     # Measure impact
+python experiments/04_evaluate_defenses.py   # Benchmark defenses
 ```
 
 Results saved to `results/poisoning_impact_report.txt`
@@ -54,20 +57,28 @@ See **`experiments/README.md`** for detailed documentation and customization opt
 
 ```
 Code-RAG-testbed/
-├── experiments/              # Experiment scripts
-│   ├── run_full_experiment.py
-│   ├── 01_establish_baseline.py
-│   ├── 02_poison_attack.py
-│   └── 03_evaluate_impact.py
-├── src/                      # Core implementation
-│   ├── poisoning.py         # Attack tools
-│   ├── evaluation.py        # Metrics & baseline tracking
-│   ├── ingest.py            # Code loading
-│   ├── embeddings.py        # OpenAI embeddings
-│   ├── vector_store.py      # ChromaDB integration
-│   └── retrieval.py         # RAG pipeline
-├── data/sample_code/         # Simple test dataset
-├── results/                  # Experiment outputs
+├── experiments/                 # Experiment scripts
+│   ├── run_full_experiment.py   # End-to-end pipeline
+│   ├── 01_establish_baseline.py # Build clean baseline
+│   ├── 02_poison_attack.py      # Inject poison
+│   ├── 03_evaluate_impact.py    # Measure poisoning impact
+│   └── 04_evaluate_defenses.py  # Benchmark defenses only
+├── src/                         # Core implementation
+│   ├── config.py                # Paths and API config
+│   ├── ingest.py                # Code loading
+│   ├── embeddings.py            # OpenAI embeddings
+│   ├── vector_store.py          # ChromaDB integration
+│   ├── retrieval.py             # RAG pipeline
+│   ├── poisoning.py             # Attack tools
+│   ├── evaluation.py            # Metrics & baseline tracking
+│   └── defense.py               # Defense logic (rerank + behavior checks)
+├── data/
+│   ├── sample_code/             # Trusted baseline code
+│   └── unknown_source/          # Clean alternate sources (unknwon but safe)
+├── results/                     # Experiment outputs
+│   ├── poisoning_impact_report.txt  # Step 3 impact report
+│   └── defence_impact_report.txt    # Step 4 defense report
+├── defence_notes.md             # Design notes for defenses
 └── requirements.txt
 ```
 
@@ -92,6 +103,7 @@ See `experiments/README.md` for implementation examples.
 ## Configuration
 
 Edit `.env` for settings:
+
 - `OPENAI_API_KEY`: Your API key (required)
 - `OPENAI_MODEL`: Generation model (default: gpt-4-turbo-preview)
 - `OPENAI_EMBEDDING_MODEL`: Embedding model (default: text-embedding-3-small)
@@ -121,6 +133,7 @@ attacker.inject_targeted_poison(
 ## Troubleshooting
 
 **Import errors**: Ensure virtual environment is activated and dependencies installed:
+
 ```bash
 source venv/bin/activate
 pip install -r requirements.txt

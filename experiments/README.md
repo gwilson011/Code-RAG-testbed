@@ -57,6 +57,15 @@ Compares poisoned retrieval to baseline and generates:
 - Overall attack effectiveness metrics
 - Full report saved to `results/poisoning_impact_report.txt`
 
+### Step 4: Benchmark Defenses
+
+```bash
+# From project root
+python experiments/04_evaluate_defenses.py
+```
+
+Runs baseline defenses (provenance validation, perplexity filtering, optional paraphrasing sanitization) against the poisoned store and reports how many poisoned chunks are filtered versus drop rate.
+
 ## Experiment Scripts
 
 | Script | Purpose | Prerequisites |

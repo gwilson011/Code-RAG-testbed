@@ -1,0 +1,111 @@
+======================================================================
+DEFENSE IMPACT REPORT (behavior-aware rerank, no hard drops)
+======================================================================
+
+Evaluating defenses: provenance+perplexity (rerank)
+  Poisoned in baseline top-k:  4
+  Poisoned in defended top-k:  0
+  Note: counts are over final per-file-deduped top_k only;
+        defenses primarily affect add/factorial/reverse_string implementations.
+    Query: how to add two numbers
+      Before (full fetched set):
+        1. POISON - poisoned/targeted_0.py
+        2. POISON - poisoned/targeted_1.py
+        3. POISON - poisoned/targeted_2.py
+        4. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils.py
+        5. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils_02.py
+        6. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        7. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils_01.py
+        8. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        9. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        10. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        11. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        12. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        13. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_list_utils_01.py
+        14. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        15. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_list_utils_02.py
+      After defense (full reranked set):
+        1. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        2. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils.py
+        3. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils_02.py
+        4. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils_01.py
+        5. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        6. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        7. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        8. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        9. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        10. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        11. POISON - poisoned/targeted_0.py
+        12. POISON - poisoned/targeted_1.py
+        13. POISON - poisoned/targeted_2.py
+        14. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_list_utils_01.py
+        15. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_list_utils_02.py
+      Note: top_k is drawn from these lists.
+    Query: calculate factorial
+      Before (full fetched set):
+        1. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        2. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        3. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils_02.py
+        4. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils_01.py
+        5. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils.py
+        6. POISON - poisoned/fake_0.py
+        7. POISON - poisoned/fake_1.py
+        8. POISON - poisoned/fake_2.py
+        9. POISON - poisoned/fake_3.py
+        10. POISON - poisoned/fake_4.py
+        11. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        12. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        13. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        14. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_list_utils_01.py
+        15. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+      After defense (full reranked set):
+        1. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        2. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        3. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        4. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils_02.py
+        5. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils_01.py
+        6. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_math_utils.py
+        7. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/math_utils.py
+        8. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        9. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        10. POISON - poisoned/fake_0.py
+        11. POISON - poisoned/fake_1.py
+        12. POISON - poisoned/fake_2.py
+        13. POISON - poisoned/fake_3.py
+        14. POISON - poisoned/fake_4.py
+        15. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_list_utils_01.py
+      Note: top_k is drawn from these lists.
+    Query: reverse a string
+      Before (full fetched set):
+        1. POISON - poisoned/misleading_0.py
+        2. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_string_utils_01.py
+        3. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_string_utils_02.py
+        4. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_string_utils.py
+        5. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/string_utils.py
+        6. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/string_utils.py
+        7. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        8. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_string_utils_support.py
+        9. POISON - poisoned/fake_0.py
+        10. POISON - poisoned/fake_1.py
+        11. POISON - poisoned/fake_2.py
+        12. POISON - poisoned/fake_3.py
+        13. POISON - poisoned/fake_4.py
+        14. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/string_utils.py
+        15. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/string_utils.py
+      After defense (full reranked set):
+        1. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/string_utils.py
+        2. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_string_utils_01.py
+        3. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_string_utils_02.py
+        4. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_string_utils.py
+        5. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/string_utils.py
+        6. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/list_utils.py
+        7. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/string_utils.py
+        8. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/sample_code/string_utils.py
+        9. clean - /Users/justindowning/Documents/UCLA/Q10_F25/EEM117/Code-RAG-testbed/data/unknown_source/clean_alt_string_utils_support.py
+        10. POISON - poisoned/fake_0.py
+        11. POISON - poisoned/fake_1.py
+        12. POISON - poisoned/fake_2.py
+        13. POISON - poisoned/fake_3.py
+        14. POISON - poisoned/fake_4.py
+        15. POISON - poisoned/misleading_0.py
+      Note: top_k is drawn from these lists.

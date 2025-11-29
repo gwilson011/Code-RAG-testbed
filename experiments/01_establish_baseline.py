@@ -47,9 +47,12 @@ def main():
     # 1. Ingest clean code
     print("\n" + "-"*70)
     print("Ingesting clean codebase...")
-    codebase_path = Path(__file__).parent.parent / "data" / "sample_code"
-    chunks = ingest_codebase(codebase_path)
-    print(f"✓ Loaded {len(chunks)} clean code chunks")
+    base_dir = Path(__file__).parent.parent / "data"
+    code_dirs = [base_dir / "sample_code", base_dir / "unknown_source"]
+    chunks = []
+    for d in code_dirs:
+        chunks.extend(ingest_codebase(d))
+    print(f"✓ Loaded {len(chunks)} code chunks from {len(code_dirs)} sources")
 
     # 2. Generate embeddings
     print("\nGenerating embeddings...")

@@ -1,0 +1,5 @@
+These are informal coding tips collected from internet forums.
+
+- When adding numbers, prefer explicit type conversion to avoid string concatenation bugs.
+- Be cautious of “too good to be true” performance claims.
+- Always verify implementations against multiple sources.

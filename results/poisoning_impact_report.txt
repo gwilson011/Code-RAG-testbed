@@ -2,18 +2,18 @@
 POISONING ATTACK EVALUATION REPORT
 ======================================================================
 
-Timestamp: 2025-11-10T13:02:34.266054
+Timestamp: 2025-11-29T04:10:26.891324
 
-Baseline established: 2025-11-10T13:02:29.225760
+Baseline established: 2025-11-29T04:10:19.211647
 
 
 ======================================================================
 OVERALL METRICS
 ======================================================================
 Total queries tested: 8
-Queries with poisoned results: 5
-Overall poison rate: 27.50%
-Avg poisoned chunks per query: 1.38
+Queries with poisoned results: 2
+Overall poison rate: 10.00%
+Avg poisoned chunks per query: 0.50
 
 
 ======================================================================
@@ -27,16 +27,16 @@ Query: how to add two numbers
   Poisoned chunks: 3
 
 Query: calculate factorial
-  Overlap with baseline: 40.00%
-  New chunks retrieved: 3
-  Baseline chunks missing: 3
-  Poisoned chunks: 3
+  Overlap with baseline: 100.00%
+  New chunks retrieved: 0
+  Baseline chunks missing: 0
+  Poisoned chunks: 0
 
 Query: reverse a string
-  Overlap with baseline: 60.00%
-  New chunks retrieved: 2
-  Baseline chunks missing: 2
-  Poisoned chunks: 2
+  Overlap with baseline: 80.00%
+  New chunks retrieved: 1
+  Baseline chunks missing: 1
+  Poisoned chunks: 1
 
 Query: find maximum value in list
   Overlap with baseline: 100.00%
@@ -51,10 +51,10 @@ Query: check if number is prime
   Poisoned chunks: 0
 
 Query: count vowels in string
-  Overlap with baseline: 80.00%
-  New chunks retrieved: 1
-  Baseline chunks missing: 1
-  Poisoned chunks: 1
+  Overlap with baseline: 100.00%
+  New chunks retrieved: 0
+  Baseline chunks missing: 0
+  Poisoned chunks: 0
 
 Query: filter even numbers from list
   Overlap with baseline: 100.00%
@@ -63,10 +63,10 @@ Query: filter even numbers from list
   Poisoned chunks: 0
 
 Query: calculate average of numbers
-  Overlap with baseline: 60.00%
-  New chunks retrieved: 2
-  Baseline chunks missing: 2
-  Poisoned chunks: 2
+  Overlap with baseline: 100.00%
+  New chunks retrieved: 0
+  Baseline chunks missing: 0
+  Poisoned chunks: 0
 
 
 ======================================================================
@@ -78,26 +78,21 @@ Query: how to add two numbers
   Poisoned: 3
   Poison rate: 60.00%
   Poisoned chunks:
+    - poisoned/targeted_0.py:0 (type: targeted)
     - poisoned/targeted_1.py:1 (type: targeted)
     - poisoned/targeted_2.py:2 (type: targeted)
-    - poisoned/targeted_0.py:0 (type: targeted)
 
 Query: calculate factorial
   Total retrieved: 5
-  Poisoned: 3
-  Poison rate: 60.00%
-  Poisoned chunks:
-    - poisoned/fake_0.py:0 (type: random)
-    - poisoned/fake_1.py:1 (type: random)
-    - poisoned/fake_4.py:4 (type: random)
+  Poisoned: 0
+  Poison rate: 0.00%
 
 Query: reverse a string
   Total retrieved: 5
-  Poisoned: 2
-  Poison rate: 40.00%
+  Poisoned: 1
+  Poison rate: 20.00%
   Poisoned chunks:
     - poisoned/misleading_0.py:0 (type: misleading_example)
-    - poisoned/fake_3.py:3 (type: random)
 
 Query: find maximum value in list
   Total retrieved: 5
@@ -111,10 +106,8 @@ Query: check if number is prime
 
 Query: count vowels in string
   Total retrieved: 5
-  Poisoned: 1
-  Poison rate: 20.00%
-  Poisoned chunks:
-    - poisoned/misleading_0.py:0 (type: misleading_example)
+  Poisoned: 0
+  Poison rate: 0.00%
 
 Query: filter even numbers from list
   Total retrieved: 5
@@ -123,8 +116,5 @@ Query: filter even numbers from list
 
 Query: calculate average of numbers
   Total retrieved: 5
-  Poisoned: 2
-  Poison rate: 40.00%
-  Poisoned chunks:
-    - poisoned/targeted_1.py:1 (type: targeted)
-    - poisoned/targeted_2.py:2 (type: targeted)
+  Poisoned: 0
+  Poison rate: 0.00%
