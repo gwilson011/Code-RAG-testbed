@@ -22,10 +22,17 @@ class CodeDocument:
             "filepath": filepath,
             "language": language,
             "size": len(content),
+            "content_hash": self._hash_content(content),
         }
 
     def __repr__(self):
         return f"CodeDocument(filepath={self.filepath}, language={self.language})"
+
+    @staticmethod
+    def _hash_content(content: str) -> str:
+        import hashlib
+
+        return hashlib.sha256(content.encode("utf-8")).hexdigest()
 
 
 class CodeChunk:
@@ -49,10 +56,17 @@ class CodeChunk:
             "chunk_id": chunk_id,
             "start_line": start_line if start_line is not None else 0,
             "end_line": end_line if end_line is not None else 0,
+            "content_hash": self._hash_content(content),
         }
 
     def __repr__(self):
         return f"CodeChunk(filepath={self.filepath}, chunk_id={self.chunk_id})"
+
+    @staticmethod
+    def _hash_content(content: str) -> str:
+        import hashlib
+
+        return hashlib.sha256(content.encode("utf-8")).hexdigest()
 
 
 class CodeIngestor:

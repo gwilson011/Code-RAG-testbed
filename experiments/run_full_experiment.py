@@ -29,6 +29,7 @@ from src.vector_store import VectorStore
 from src.retrieval import CodeRAG
 from src.poisoning import PoisonAttacker
 from src.evaluation import BaselineTracker, PoisonEvaluator
+from src.defense import DefenseConfig, DefenseManager, DefenseEvaluator
 
 
 def print_header(title):
@@ -44,9 +45,12 @@ def establish_baseline(test_queries):
 
     # Ingest code
     print("\nIngesting clean codebase...")
-    codebase_path = Path(__file__).parent.parent / "data" / "sample_code"
-    chunks = ingest_codebase(codebase_path)
-    print(f"✓ Loaded {len(chunks)} code chunks")
+    base_dir = Path(__file__).parent.parent / "data"
+    code_dirs = [base_dir / "sample_code", base_dir / "unknown_source"]
+    chunks = []
+    for d in code_dirs:
+        chunks.extend(ingest_codebase(d))
+    print(f"✓ Loaded {len(chunks)} code chunks from {len(code_dirs)} sources")
 
     # Generate embeddings
     print("Generating embeddings...")
@@ -158,6 +162,90 @@ def evaluate_impact(vector_store, embedding_gen, baseline_tracker, test_queries)
     return evaluation_results
 
 
+def evaluate_defenses(vector_store, embedding_gen, baseline_tracker, test_queries):
+    """Optional: Evaluate defense effectiveness on the poisoned store."""
+    print_header("STEP 4/4: BENCHMARK DEFENSES (behavior-aware rerank, no hard drops)")
+
+    rag = CodeRAG(vector_store=vector_store, embedding_generator=embedding_gen)
+    defense_profiles = {
+        "provenance+perplexity (rerank)": DefenseManager(
+            DefenseConfig(
+                enable_paraphrase=False,
+                drop_untrusted=False,
+                drop_high_perplexity=False,
+                mode="rerank",
+                perplexity_threshold=500.0,
+            )
+        ),
+    }
+
+    evaluator = DefenseEvaluator(baseline_tracker)
+
+    # Collect report lines to write to defence_impact_report.txt
+    report_lines: list[str] = []
+    report_lines.append("=" * 70)
+    report_lines.append("DEFENSE IMPACT REPORT (behavior-aware rerank, no hard drops)")
+    report_lines.append("=" * 70 + "\n")
+
+    for name, manager in defense_profiles.items():
+        header = f"Evaluating defenses: {name}"
+        print(f"\n{header}")
+        report_lines.append(header)
+
+        results = evaluator.evaluate(
+            rag,
+            defense_manager=manager,
+            test_queries=test_queries,
+            top_k=5,
+            fetch_multiplier=3,
+        )
+        metrics = results["metrics"]
+        line1 = f"  Poisoned in baseline top-k:  {metrics['poison_before']}"
+        line2 = f"  Poisoned in defended top-k:  {metrics['poison_after']}"
+        note1 = "  Note: counts are over final per-file-deduped top_k only;"
+        note2 = "        defenses primarily affect add/factorial/reverse_string implementations."
+        print(line1)
+        print(line2)
+        print(note1)
+        print(note2)
+        report_lines.extend([line1, line2, note1, note2])
+
+        # Show before/after rankings for first 3 queries
+        sample_queries = list(results["queries"].keys())[:3]
+        for q in sample_queries:
+            qdata = results["queries"][q]
+            q_header = f"    Query: {q}"
+            print(q_header)
+            report_lines.append(q_header)
+
+            before_header = "      Before (full fetched set):"
+            print(before_header)
+            report_lines.append(before_header)
+            for i, chunk in enumerate(qdata["before_full"], 1):
+                marker = "POISON" if chunk["metadata"].get("poisoned") else "clean"
+                line = f"        {i}. {marker} - {chunk['metadata'].get('filepath')}"
+                print(line)
+                report_lines.append(line)
+
+            after_header = "      After defense (full reranked set):"
+            print(after_header)
+            report_lines.append(after_header)
+            for i, chunk in enumerate(qdata["after_full"], 1):
+                marker = "POISON" if chunk["metadata"].get("poisoned") else "clean"
+                line = f"        {i}. {marker} - {chunk['metadata'].get('filepath')}"
+                print(line)
+                report_lines.append(line)
+            tail_note = "      Note: top_k is drawn from these lists."
+            print(tail_note)
+            report_lines.append(tail_note)
+
+    # Write defence impact report
+    report_path = Config.RESULTS_DIR / "defence_impact_report.txt"
+    with open(report_path, "w") as f:
+        f.write("\n".join(report_lines) + "\n")
+    print(f"\n✓ Defense impact report saved: {report_path}")
+
+
 def main():
     print("="*70)
     print("FULL POISONING ATTACK EXPERIMENT")
@@ -193,6 +281,9 @@ def main():
         evaluation_results = evaluate_impact(
             vector_store, embedding_gen, baseline_tracker, test_queries
         )
+
+        # Step 4: Defense benchmarking (optional; runs by default here)
+        evaluate_defenses(vector_store, embedding_gen, baseline_tracker, test_queries)
 
         # Final summary
         print_header("EXPERIMENT COMPLETE")
